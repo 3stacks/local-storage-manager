@@ -1,7 +1,7 @@
 {
   "name": "local-storage-manager",
-  "version": "0.0.2",
-  "description": "An module to easy manage data for local storage.",
+  "version": "0.0.3",
+  "description": "A module to easily manage data in local storage.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,8 @@
   "keywords": [
     "local",
     "storage",
-    "manager"
+    "manager",
+    "localStorage"
   ],
   "author": "Luke Boyle",
   "license": "ISC"

@@ -3,7 +3,7 @@
 A simple package used for creating, storing and deleting data from local storage.
 
 Current features:
-* Enter key and data into localstorage
+* Enter key and data into local storage
 * Get the data for a given key
 * Remove all data for a given key
 
@@ -57,11 +57,7 @@ if (data === 'data') {
 	return true;
 }
 
-For changelog, view [changelog markdown][Changelog]
+For changelog, view [changelog markdown](https://github.com/3stacks/local-storage-manager/blob/master/changelog.md "changelog")
 
-Find me on [Github][Github],
-or at my [website][MyWeb]
-
-[Github]: https://github.com/3stacks/
-[MyWeb]: http://lukeboyle.com
-[Changelog]: https://github.com/3stacks/local-storage-manager
+Find me on [Github](https://github.com/3stacks/ "Github"),
+or at my [website](http://lukeboyle.com "My website")
