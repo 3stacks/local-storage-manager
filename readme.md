@@ -9,7 +9,7 @@ Current features:
 
 ### Installation
 
-npm install local-storage-manager --save
+`npm install local-storage-manager --save`
 
 ### Usage
 
@@ -57,6 +57,14 @@ if (data === 'data') {
 	return true;
 }
 ```
+
+### Running the Tests
+
+To run the test included in this package, open the `test.html` and open the developer console.
+
+Note that if the environment does not have local storage, the functions will not run.
+
+### Contact
 
 For changelog, view [changelog markdown](https://github.com/3stacks/local-storage-manager/blob/master/changelog.md "changelog")
 
