@@ -2,7 +2,7 @@ var localStorageManager = require('../index.js');
 
     function setTest() {
         localStorage.clear();
-        localStorageManager.set('string', 'data');
+        localStorageManager.set('string', 'data'); 
         console.log('-LOCAL STORAGE MANAGER SET FUNCTION TEST-');
         console.log('     String saved to local storage: ' + localStorage.string);
         if (localStorage.string === ('"data"')) {
