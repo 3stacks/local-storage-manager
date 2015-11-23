@@ -42,7 +42,7 @@ function fetch(key) {
             return JSON.parse(localStorage[key]);
         }
     } else {
-        throw new Error(errorMessage)
+        throw new Error(localStorageError)
     }
 }
 
@@ -54,7 +54,7 @@ function remove(key) {
     if (isLocalStorageAvailable() === true) {
         return localStorage.removeItem(key);
     } else {
-        throw new Error(errorMessage)
+        throw new Error(localStorageError)
     }
 }
 
