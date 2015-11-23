@@ -20,9 +20,13 @@ var undefinedError = 'Warning, the key or data is undefined. LocalStorage variab
  */
 function put(key, data) {
     if (isLocalStorageAvailable() === true) {
-        localStorage[key] = JSON.stringify(data);
+        if(key === undefined || data === undefined) {
+            throw new Error(undefinedError)
+        } else {
+            localStorage[key] = JSON.stringify(data);
+        }
     } else {
-        throw new Error(errorMessage)
+        throw new Error(localStorageError)
     }
 }
 
