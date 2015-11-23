@@ -1,6 +1,6 @@
 {
   "name": "local-storage-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A module to easily manage data in local storage.",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,9 @@
     "local",
     "storage",
     "manager",
-    "localStorage"
+    "localStorage",
+    "easy",
+    "simple"
   ],
   "author": "Luke Boyle",
   "license": "ISC"
