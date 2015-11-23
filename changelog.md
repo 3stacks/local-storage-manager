@@ -1,5 +1,9 @@
 ## Local Storage Manager
 
+###1.0.2
+
+*Fixes an issue where undefined keys/data could be entered into localStorage
+
 ###1.0.1
 
 *Updates readme with usages of new functions.
