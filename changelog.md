@@ -1,5 +1,9 @@
 ## Local Storage Manager
 
+###1.0.1
+
+*Updates readme with usages of new functions.
+
 ###1.0.0
 
 * Adds two new functions to transform data you enter into local storage.
