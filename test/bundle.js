@@ -12,8 +12,8 @@ function isLocalStorageAvailable(){
     }
 }
 
-var errorMessage = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
-
+var localStorageError = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
+var undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
 /**
  *
  * @param {String} key - the local storage key
@@ -21,9 +21,13 @@ var errorMessage = 'Warning, local storage is not available in your current envi
  */
 function put(key, data) {
     if (isLocalStorageAvailable() === true) {
-        localStorage[key] = JSON.stringify(data);
+        if(key === undefined || data === undefined) {
+            throw new Error(undefinedError)
+        } else {
+            localStorage[key] = JSON.stringify(data);
+        }
     } else {
-        throw new Error(errorMessage)
+        throw new Error(localStorageError)
     }
 }
 
@@ -39,7 +43,7 @@ function fetch(key) {
             return JSON.parse(localStorage[key]);
         }
     } else {
-        throw new Error(errorMessage)
+        throw new Error(localStorageError)
     }
 }
 
@@ -51,7 +55,7 @@ function remove(key) {
     if (isLocalStorageAvailable() === true) {
         return localStorage.removeItem(key);
     } else {
-        throw new Error(errorMessage)
+        throw new Error(localStorageError)
     }
 }
 
