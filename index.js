@@ -11,8 +11,8 @@ function isLocalStorageAvailable(){
     }
 }
 
-var errorMessage = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
-
+var localStorageError = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
+var undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
 /**
  *
  * @param {String} key - the local storage key
