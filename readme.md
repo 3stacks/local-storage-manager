@@ -44,7 +44,7 @@ localStorageManager.set('object1'
 
 localStorageManager.get('string1');
 
-	*'data'*
+	returns: 'data'
 
 // Removing a key and all data bound to it
 
@@ -56,6 +56,7 @@ var data = localStorageManager.get('string1');
 if (data === 'data') {
 	return true;
 }
+```
 
 For changelog, view [changelog markdown](https://github.com/3stacks/local-storage-manager/blob/master/changelog.md "changelog")
 

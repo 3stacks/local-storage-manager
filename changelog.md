@@ -1,8 +1,12 @@
 ## Local Storage Manager
 
+###0.0.4
+
+Updates readme.
+
 ###0.0.3
 
-Update readme.
+Updates readme.
 
 ###0.0.2
 

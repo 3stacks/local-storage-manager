@@ -1,6 +1,6 @@
 {
   "name": "local-storage-manager",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A module to easily manage data in local storage.",
   "main": "index.js",
   "scripts": {
