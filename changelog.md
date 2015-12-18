@@ -1,5 +1,13 @@
 ## Local Storage Manager
 
+###1.1.4
+
+*chore: Updates readme
+
+###1.1.3
+
+*feat: Adds the 'setIfEmpty' function to make sure no undefined values are loaded in local storage. 
+
 ###1.0.2
 
 *Fixes an issue where undefined keys/data could be entered into localStorage
