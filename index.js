@@ -91,8 +91,22 @@ function transformFromStorage(string, find, replace) {
     return replaceAll(string, find, replace);
 }
 
+/**
+ *
+ * @param {Object} defaultValues - Pass in an object with your application's local storage keys + their default value
+ */
+function setIfEmpty(defaultValues) {
+    Object.keys(defaultValues).forEach(function(key) {
+        var currentValue = defaultValues[key];
+        if (fetch(key) === undefined) {
+            put(key, currentValue)
+        }
+    })
+}
+
 module.exports.set = put;
 module.exports.get = fetch;
 module.exports.remove = remove;
+module.exports.setIfEmpty = setIfEmpty;
 module.exports.transformToStorage = transformToStorage;
 module.exports.transformFromStorage = transformFromStorage;
