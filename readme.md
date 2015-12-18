@@ -93,6 +93,25 @@ console.log(transformedValue2)
 	-- '23/53453458124234'
 ```
 
+If keys in your local storage are undefined it may result in a crash. The setIfEmpty function eliminates this issue by 
+checking if keys are undefined, and setting a default value if they are. See below for usage.
+
+```javascript
+
+// define your default values in the format of localStorageKeyName: defaultValue
+var defaultValues = {
+	string: '',
+	array: [],
+	object: {
+
+	}
+};
+
+// pass your object of default values into the function
+localStorageManager.setIfEmpty(defaultValues);
+
+```
+
 ### Running the Tests
 
 To run the test included in this package, open the `test.html` and open the developer console.
