@@ -19,5 +19,8 @@
     "simple"
   ],
   "author": "Luke Boyle",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "codecov.io": "^0.1.6"
+  }
 }
