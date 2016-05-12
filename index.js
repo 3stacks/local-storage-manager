@@ -18,7 +18,7 @@ var undefinedError = 'Warning, the key or data is undefined. LocalStorage variab
  * @param {String} key - the local storage key
  * @param {String || Number || Array || Object} data - the data to enter into the key
  */
-function put(key, data) {
+export function put(key, data) {
     if (isLocalStorageAvailable() === true) {
         if(key === undefined || data === undefined) {
             throw new Error(undefinedError)
@@ -34,7 +34,7 @@ function put(key, data) {
  *
  * @param {String} key - fetches all data in the key and de-stringifies it
  */
-function fetch(key) {
+export function fetch(key) {
     if (isLocalStorageAvailable() === true) {
         if (localStorage[key] === undefined) {
             return undefined;
@@ -50,7 +50,7 @@ function fetch(key) {
  *
  * @param {String} key - the key to remove and delete all data in
  */
-function remove(key) {
+export function remove(key) {
     if (isLocalStorageAvailable() === true) {
         return localStorage.removeItem(key);
     } else {
@@ -76,7 +76,7 @@ function replaceAll(str, find, replace) {
  * @param {String} replace - The characters to replace the found characters with
  * @returns {string|XML|void}
  */
-function transformToStorage(string, find, replace) {
+export function transformToStorage(string, find, replace) {
     return replaceAll(string, find, replace);
 }
 
@@ -87,7 +87,7 @@ function transformToStorage(string, find, replace) {
  * @param {String} replace - The characters to replace the found characters with
  * @returns {*} - Does the opposite of {@link transformToStorage}
  */
-function transformFromStorage(string, find, replace) {
+export function transformFromStorage(string, find, replace) {
     return replaceAll(string, find, replace);
 }
 
@@ -95,7 +95,7 @@ function transformFromStorage(string, find, replace) {
  *
  * @param {Object} defaultValues - Pass in an object with your application's local storage keys + their default value
  */
-function setIfEmpty(defaultValues) {
+export function setIfEmpty(defaultValues) {
     Object.keys(defaultValues).forEach(function(key) {
         var currentValue = defaultValues[key];
         if (fetch(key) === undefined) {
@@ -104,9 +104,5 @@ function setIfEmpty(defaultValues) {
     })
 }
 
-module.exports.set = put;
-module.exports.get = fetch;
-module.exports.remove = remove;
-module.exports.setIfEmpty = setIfEmpty;
-module.exports.transformToStorage = transformToStorage;
-module.exports.transformFromStorage = transformFromStorage;
+export {put as set}
+export {fetch as get}
