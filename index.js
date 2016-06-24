@@ -14,7 +14,6 @@ function isLocalStorageAvailable(){
 var localStorageError = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
 var undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
 /**
- *
  * @param {String} key - the local storage key
  * @param {String || Number || Array || Object} data - the data to enter into the key
  */
@@ -31,8 +30,8 @@ export function put(key, data) {
 }
 
 /**
- *
  * @param {String} key - fetches all data in the key and de-stringifies it
+ * @returns {Object}
  */
 export function fetch(key) {
     if (isLocalStorageAvailable() === true) {
@@ -104,5 +103,5 @@ export function setIfEmpty(defaultValues) {
     })
 }
 
-export {put as set}
-export {fetch as get}
+export { put as set }
+export { fetch as get }
