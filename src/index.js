@@ -103,5 +103,5 @@ export function setIfEmpty(defaultValues) {
     })
 }
 
-export { put as set }
-export { fetch as get }
+export { put as set };
+export { fetch as get };
