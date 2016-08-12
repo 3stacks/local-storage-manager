@@ -1,6 +1,6 @@
 {
   "name": "@lukeboyle/local-storage-manager",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A module to easily manage data in local storage.",
   "main": "index.js",
   "main:jsnext": "src/index.js",
@@ -22,8 +22,7 @@
   ],
   "author": "Luke Boyle",
   "license": "ISC",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "codecov.io": "^0.1.6",
     "babel": "^6.5.2",
