@@ -1,10 +1,11 @@
 {
   "name": "@lukeboyle/local-storage-manager",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "A module to easily manage data in local storage.",
   "main": "index.js",
   "main:jsnext": "src/index.js",
   "scripts": {
+    "prepublish": "npm run build && npm run build-test",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config rollup.config.js",
     "build-test": "browserify ./test/test.js -o ./test/bundle.js -t [ babelify --presets [ es2015 ] ]"
