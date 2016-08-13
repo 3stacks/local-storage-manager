@@ -9,9 +9,11 @@ Current features:
 
 ### Installation
 
-`npm install local-storage-manager --save`
+`npm install @lukeboyle/local-storage-manager --save`
 
 ### Usage
+
+The main js file is ES5, and the src/index.js (main:jsnext) 
 
 ```javascript
 var localStorageManager = require('local-storage-manager')
