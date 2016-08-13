@@ -6,7 +6,7 @@
   "main:jsnext": "src/index.js",
   "scripts": {
     "prepublish": "npm run build && npm run build-test",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-all": "npm run build && npm run build-test",
     "build": "rollup --config rollup.config.js",
     "build-test": "browserify ./test/test.js -o ./test/bundle.js -t [ babelify --presets [ es2015 ] ]"
   },
