@@ -1,13 +1,13 @@
-import * as localStorageManager from '../index';
+import {set, get} from '../index';
 
 function prepareLocalStorage() {
     localStorage.clear();
 }
 
-localStorageManager.set('key', 'value');
+set('key', 'value');
 
 function getTest() {
-    console.log(localStorageManager.get('key'));
+    console.log(get('key'));
 }
 
 prepareLocalStorage();

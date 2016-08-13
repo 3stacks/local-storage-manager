@@ -122,18 +122,14 @@ exports.get = fetch;
 
 var _index = require('../index');
 
-var localStorageManager = _interopRequireWildcard(_index);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function prepareLocalStorage() {
     localStorage.clear();
 }
 
-localStorageManager.set('key', 'value');
+(0, _index.set)('key', 'value');
 
 function getTest() {
-    console.log(localStorageManager.get('key'));
+    console.log((0, _index.get)('key'));
 }
 
 prepareLocalStorage();
