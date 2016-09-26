@@ -18,6 +18,31 @@ function isLocalStorageAvailable() {
 
 var localStorageError = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
 var undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
+
+var settings = getLocalStorageManagerSettings();
+
+function getLocalStorageManagerSettings() {
+    if (get('localStorageManagerSettings') === undefined) {
+        return {
+            isNamespaced: false,
+            namespace: null
+        };
+    } else {
+        return get('localStorageManagerSettings');
+    }
+}
+
+/**
+ *
+ * @param {String} namespace - The namespace you want your application to save/access data to/from
+ */
+function init(namespace) {
+    put(namespace, {});
+    settings.isNamespaced = true;
+    settings.namespace = namespace;
+    put('localStorageManagerSettings', settings);
+}
+
 /**
  * @param {String} key - the local storage key
  * @param {String || Number || Array || Object} data - the data to enter into the key
@@ -27,7 +52,11 @@ function put(key, data) {
         if (key === undefined || data === undefined) {
             throw new Error(undefinedError);
         } else {
-            localStorage[key] = JSON.stringify(data);
+            if (settings.isNamespaced) {
+                localStorage[settings.namespace][key] = JSON.stringify(data);
+            } else {
+                localStorage[key] = JSON.stringify(data);
+            }
         }
     } else {
         throw new Error(localStorageError);
@@ -108,6 +137,7 @@ function setIfEmpty(defaultValues) {
     });
 }
 
+exports.init = init;
 exports.put = put;
 exports.fetch = fetch;
 exports.remove = remove;
