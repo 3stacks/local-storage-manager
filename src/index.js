@@ -13,44 +13,29 @@ function isLocalStorageAvailable(){
 
 const localStorageError = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
 const undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
+const namespaceTypeError = new TypeError('argument `namespace` was expecting a string');
 
-const settings = getLocalStorageManagerSettings();
-
-function getLocalStorageManagerSettings() {
-    if (get('localStorageManagerSettings') === undefined) {
-        return {
-            isNamespaced: false,
-            namespace: null
-        };
-    } else {
-        return get('localStorageManagerSettings')
+function checkNamespaceType(namespaceInput) {
+    if (typeof namespaceInput !== 'string') {
+        throw namespaceTypeError;
     }
-}
-
-/**
- *
- * @param {String} namespace - The namespace you want your application to save/access data to/from
- */
-export function init(namespace) {
-    put(namespace, {});
-    settings.isNamespaced = true;
-    settings.namespace = namespace;
-    put('localStorageManagerSettings', settings)
 }
 
 /**
  * @param {String} key - the local storage key
  * @param {String || Number || Array || Object} data - the data to enter into the key
+ * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
  */
-export function put(key, data) {
+export function put(key, data, namespace = null) {
     if (isLocalStorageAvailable() === true) {
         if(key === undefined || data === undefined) {
             throw new Error(undefinedError)
         } else {
-            if (settings.isNamespaced) {
-                localStorage[settings.namespace][key] = JSON.stringify(data);
+            if (namespace !== null) {
+                checkNamespaceType(namespace);
+                localStorage.setItem(namespace[key], JSON.stringify(data));
             } else {
-                localStorage[key] = JSON.stringify(data);
+                localStorage.setItem(key, JSON.stringify(data));
             }
         }
     } else {
@@ -60,14 +45,24 @@ export function put(key, data) {
 
 /**
  * @param {String} key - fetches all data in the key and de-stringifies it
+ * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
  * @returns {Object}
  */
-export function fetch(key) {
+export function fetch(key, namespace = null) {
     if (isLocalStorageAvailable() === true) {
-        if (localStorage[key] === undefined) {
-            return undefined;
+        if (namespace !== null) {
+            checkNamespaceType(namespace);
+            if (localStorage.getItem(namespace[key]) === undefined) {
+                return undefined;
+            } else {
+                return JSON.parse(localStorage.getItem(namespace[key]));
+            }
         } else {
-            return JSON.parse(localStorage[key]);
+            if (localStorage.getItem(key) === undefined) {
+                return undefined;
+            } else {
+                return JSON.parse(localStorage.getItem(key));
+            }
         }
     } else {
         throw new Error(localStorageError)
@@ -75,12 +70,16 @@ export function fetch(key) {
 }
 
 /**
- *
  * @param {String} key - the key to remove and delete all data in
+ * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
  */
-export function remove(key) {
+export function remove(key, namespace = null) {
     if (isLocalStorageAvailable() === true) {
-        return localStorage.removeItem(key);
+        if (namespace !== null) {
+            return localStorage.removeItem(namespace[key]);
+        } else {
+            return localStorage.removeItem(key);
+        }
     } else {
         throw new Error(localStorageError)
     }
@@ -120,14 +119,14 @@ export function transformFromStorage(string, find, replace) {
 }
 
 /**
- *
  * @param {Object} defaultValues - Pass in an object with your application's local storage keys + their default value
+ * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
  */
-export function setIfEmpty(defaultValues) {
+export function setIfEmpty(defaultValues, namespace) {
     Object.keys(defaultValues).forEach(function(key) {
-        var currentValue = defaultValues[key];
+        let currentValue = defaultValues[key];
         if (fetch(key) === undefined) {
-            put(key, currentValue)
+            put(key, currentValue, namespace)
         }
     })
 }
