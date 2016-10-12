@@ -6,10 +6,8 @@
   "main:jsnext": "src/index.js",
   "scripts": {
     "test": "karma start karma.config.js",
-    "prepublish": "npm run build && npm run build-test",
     "build-all": "npm run build && npm run build-test",
-    "build": "rollup --config rollup.config.js",
-    "build-test": "browserify ./test/test.js -o ./test/bundle.js -t [ babelify --presets [ es2015 ] ]"
+    "build": "rollup --config rollup.config.js"
   },
   "repository": {
     "type": "git",
