@@ -5,7 +5,7 @@
   "main": "index.js",
   "main:jsnext": "src/index.js",
   "scripts": {
-    "run-tests": "karma start karma.config.js",
+    "test": "karma start karma.config.js",
     "start": "rollup --config rollup.config.js"
   },
   "repository": {
