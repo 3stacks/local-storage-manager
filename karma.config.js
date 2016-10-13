@@ -52,5 +52,6 @@ var travisConfig = {
 			base: 'Chrome',
 			flags: ['--no-sandbox']
 		}
-	}
+	},
+	browsers: ['Chrome_travis_ci']
 };
