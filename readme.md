@@ -1,6 +1,7 @@
 ## Local Storage Manager
 
 [![Build Status](https://travis-ci.org/3stacks/local-storage-manager.svg?branch=master)](https://travis-ci.org/3stacks/local-storage-manager)
+[![Coverage Status](https://coveralls.io/repos/github/3stacks/local-storage-manager/badge.svg?branch=master)](https://coveralls.io/github/3stacks/local-storage-manager?branch=master)
 
 A simple package used for creating, storing and deleting data from local storage.
 
