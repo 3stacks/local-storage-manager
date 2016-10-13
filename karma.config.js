@@ -51,12 +51,5 @@ if (!process.env.TRAVIS) {
 }
 
 module.exports = function(config) {
-	if (!process.env.TRAVIS) {
-		config.set();
-	} else {
-		config.set({
-
-
-		});
-	}
+	config.set(configuration);
 };
