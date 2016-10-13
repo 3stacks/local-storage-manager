@@ -8,7 +8,7 @@ const configuration = {
 		'!**/**/**.test.js': ['coverage']
 	},
 	customLaunchers: {
-		Chrome_travis_ci: {
+		chromeTravisCi: {
 			base: 'Chrome',
 			flags: ['--no-sandbox']
 		}
@@ -58,7 +58,7 @@ const configuration = {
 };
 
 if (process.env.TRAVIS) {
-	configuration.browsers = ['Chrome_travis_ci']
+	configuration.browsers = ['chromeTravisCi']
 }
 
 module.exports = function(config) {
