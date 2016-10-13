@@ -40,7 +40,18 @@ const configuration = {
 		noInfo: true
 	},
 	frameworks: ['mocha'],
-	reporters: ['mocha', 'coverage'],
+	reporters: ['mocha', 'coverage', 'coveralls'],
+	coverageReporter: {
+		dir: './coverage',
+		reporters: [
+			{
+				type: 'html'
+			},
+			{
+				type: 'lcov'
+			}
+		]
+	},
 	browsers: ['Chrome'],
 	failOnEmptyTestSuite: true,
 	singleRun: true
