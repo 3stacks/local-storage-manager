@@ -16,10 +16,20 @@ Current features:
 
 ### Usage
 
-The main js file is ES5, and the src/index.js (main:jsnext) 
+The main js file is ES5, and the src/index.js (main:jsnext) is ES2015
+
+### New Features
+
+- Namespacing data
+
+- When setting data, put your namespace as the third argument and all data 
+will be stored under that key
+- You can then get keys from under that namespace, or just get that key 
+and dump all your namespace data
 
 ```javascript
-var localStorageManager = require('local-storage-manager')
+var localStorageManager = require('@lukeboyle/local-storage-manager') // OR
+import * as localStorageManager from '@lukeboyle/local-storage-manager';
 
 // Creating a key and entering a string into local storage
 
@@ -27,29 +37,27 @@ localStorageManager.set('string1', 'data');
 
 // Creating a key and entering an array into local storage
 
-localStorageManager.set('array1' 
-		[ 
-			'one'
-			'two'
-			'three'
-		]);
+localStorageManager.set('array1', [ 
+	'one',
+	'two',
+	'three'
+]);
 
-// Creating a key and entering an object into local storage
+// Namespacing data
 
-localStorageManager.set('object1' 
-		[
-			{
-				one: 'two',
-				two: 'three',
-				three: 'four'
-			}	
-		]);
+localStorageManager.set('namespacedString', 'sampleValue', 'sampleNamespace');
+
+	localStorageManager.get('namespacedString');
+		// undefined
+	
+	localStorageManager.get('namespacedString', 'sampleNamespace')
+		// sampleValue
 
 // Getting data bound to a key
 
 localStorageManager.get('string1');
 
-	returns: 'data'
+//	returns: 'data'
 
 // Removing a key and all data bound to it
 
@@ -88,7 +96,7 @@ localStorageManager.set(keyName, transformedValue);
 
 console.log(localStorageManager.get(keyName);
 	-- '23replaceTheSlash53453458124234'
-	
+
 // To transform it back to normal, do the opposite function
 
 var value2 = localStorageManager.get(keyName);
@@ -107,9 +115,7 @@ checking if keys are undefined, and setting a default value if they are. See bel
 var defaultValues = {
 	string: '',
 	array: [],
-	object: {
-
-	}
+	object: {}
 };
 
 // pass your object of default values into the function
@@ -119,9 +125,7 @@ localStorageManager.setIfEmpty(defaultValues);
 
 ### Running the Tests
 
-To run the test included in this package, open the `test.html` and open the developer console.
-
-Note that if the environment does not have local storage, the functions will not run.
+run `npm test`
 
 ### Contact
 
