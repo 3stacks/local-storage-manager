@@ -25,4 +25,26 @@ describe('Set function', () => {
 
     });
 
+    describe('Correct usage', () => {
+
+        it('setting non-namespaced', () => {
+            set('key', 'value');
+
+            expect(
+                JSON.parse(localStorage.getItem('key'))
+            ).toEqual('value');
+
+        });
+
+        it('setting namespaced', () => {
+            set('newKey', 'newValue', 'namespace');
+
+            expect(
+                JSON.parse(localStorage.getItem(['namespace']['newKey']))
+            ).toEqual('newValue')
+
+        });
+
+    });
+
 });
