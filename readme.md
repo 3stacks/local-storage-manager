@@ -6,9 +6,9 @@
 A simple package used for creating, storing and deleting data from local storage.
 
 Current features:
-* Enter key and data into local storage
-* Get the data for a given key
-* Remove all data for a given key
+* Enter key and data into local storage (under a namespace optionally)
+* Get the data for a given key (under a namespace optionally)
+* Remove all data for a given key (under a namespace optionally)
 
 ### Installation
 
@@ -127,9 +127,61 @@ localStorageManager.setIfEmpty(defaultValues);
 
 run `npm test`
 
-### Contact
+## Changelog
 
-For changelog, view [changelog markdown](https://github.com/3stacks/local-storage-manager/blob/master/changelog.md "changelog")
+### 2.1.3
+
+- fix: make the remove function work stably
+
+### 2.1.1
+
+- fix: critical issue with namespace consistency
+
+### 2.1.0
+
+- feat: Add the ability to `namespace` your data to store it under an individual domain.
+- refactor: convert to use `.getItem` and `.setItem` methods as per best practice
+- refactor: convert fully to ES2015
+
+### 1.1.4
+
+- chore: Updates readme
+
+### 1.1.3
+
+- feat: Adds the 'setIfEmpty' function to make sure no undefined values are loaded in local storage. 
+
+### 1.0.2
+
+- Fixes an issue where undefined keys/data could be entered into localStorage
+
+### 1.0.1
+
+- Updates readme with usages of new functions.
+
+### 1.0.0
+
+- Adds two new functions to transform data you enter into local storage.
+- Adds tests for each function.
+- **Breaking change** - The package will now no longer run in an environment with no local storage to increase stability.
+
+### 0.0.4
+
+Updates readme.
+
+### 0.0.3
+
+Updates readme.
+
+### 0.0.2
+
+Adds the changelog and a full readme.
+
+### 0.0.1
+
+Initial Version.
+
+## Contact
 
 Find me on [Github](https://github.com/3stacks/ "Github"),
 or at my [website](http://lukeboyle.com "My website")
