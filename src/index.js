@@ -33,9 +33,15 @@ export function put(key, data, namespace = null) {
         } else {
             if (namespace !== null) {
                 checkNamespaceType(namespace);
-                localStorage.setItem(namespace[key], JSON.stringify(data));
+
+				const result = {
+					...fetch(namespace),
+					[key]: data
+				};
+
+                return localStorage.setItem(namespace, JSON.stringify(result));
             } else {
-                localStorage.setItem(key, JSON.stringify(data));
+                return localStorage.setItem(key, JSON.stringify(data));
             }
         }
     } else {
@@ -50,18 +56,19 @@ export function put(key, data, namespace = null) {
  */
 export function fetch(key, namespace = null) {
     if (isLocalStorageAvailable() === true) {
+		const getIt = key => localStorage.getItem(key);
         if (namespace !== null) {
             checkNamespaceType(namespace);
-            if (localStorage.getItem(namespace[key]) === undefined) {
-                return undefined;
+            if (!JSON.parse(getIt(namespace))[key]) {
+                return null;
             } else {
-                return JSON.parse(localStorage.getItem(namespace[key]));
+                return JSON.parse(getIt(namespace))[key];
             }
         } else {
-            if (localStorage.getItem(key) === undefined) {
-                return undefined;
+            if (!JSON.parse(getIt(key))) {
+                return null;
             } else {
-                return JSON.parse(localStorage.getItem(key));
+                return JSON.parse(getIt(key));
             }
         }
     } else {
@@ -76,7 +83,10 @@ export function fetch(key, namespace = null) {
 export function remove(key, namespace = null) {
     if (isLocalStorageAvailable() === true) {
         if (namespace !== null) {
-            return localStorage.removeItem(namespace[key]);
+            return localStorage.setItem(namespace, JSON.stringify({
+				...fetch(namespace),
+				[key]: undefined
+			}));
         } else {
             return localStorage.removeItem(key);
         }
