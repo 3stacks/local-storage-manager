@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { set } from '../src/index';
+import { get, set } from '../src/index';
 
 describe('Set function', () => {
 
@@ -28,19 +28,21 @@ describe('Set function', () => {
     describe('Correct usage', () => {
 
         it('setting non-namespaced', () => {
+
             set('key', 'value');
 
             expect(
-                JSON.parse(localStorage.getItem('key'))
+            	get('key')
             ).toEqual('value');
 
         });
 
         it('setting namespaced', () => {
-            set('newKey', 'newValue', 'namespace');
+			set('jewKey', 'jewValue', 'sampleNamespace');
+            set('newKey', 'newValue', 'sampleNamespace');
 
             expect(
-                JSON.parse(localStorage.getItem(['namespace']['newKey']))
+            	get('newKey', 'sampleNamespace')
             ).toEqual('newValue')
 
         });
