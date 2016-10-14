@@ -23,7 +23,8 @@ const configuration = {
 					query: {
 						"plugins": [
 							"istanbul",
-							"transform-runtime"
+							"transform-runtime",
+							'transform-object-rest-spread'
 						],
 						"presets" : ["es2015", "es2017"]
 					}
