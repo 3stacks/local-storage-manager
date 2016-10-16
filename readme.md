@@ -129,6 +129,10 @@ run `npm test`
 
 ## Changelog
 
+### 2.1.4
+
+- refactor: safely access the keys to stop throwing when keys are missing
+
 ### 2.1.3
 
 - fix: make the remove function work stably
