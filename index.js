@@ -208,13 +208,13 @@ function fetch(key) {
         };
         if (namespace !== null) {
             checkNamespaceType(namespace);
-            if (getIt(namespace)[key] === null) {
+            if (getIt(namespace) === null) {
                 return null;
             } else {
                 return JSON.parse(getIt(namespace))[key];
             }
         } else {
-            if (!JSON.parse(getIt(key))) {
+            if (getIt(key) === null) {
                 return null;
             } else {
                 return JSON.parse(getIt(key));
@@ -234,7 +234,7 @@ function remove(key) {
 
     if (isLocalStorageAvailable() === true) {
         if (namespace !== null) {
-            return localStorage.setItem(namespace, JSON.stringify(_extends({}, fetch(namespace), defineProperty({}, key, undefined))));
+            return localStorage.setItem(namespace, JSON.stringify(_extends({}, fetch(namespace), defineProperty({}, key, null))));
         } else {
             return localStorage.removeItem(key);
         }
