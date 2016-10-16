@@ -47,4 +47,24 @@ describe('Get function', () => {
 
     });
 
+	describe('When the key doesn\'t exist', () => {
+
+		it('should return null', () => {
+
+			expect(
+				get('key')
+			).toBe(null)
+
+		});
+
+		it('should return null on namespaced', () => {
+
+			expect(
+				get('key', 'sampleNamespace')
+			).toBe(null)
+
+		});
+
+	});
+
 });
