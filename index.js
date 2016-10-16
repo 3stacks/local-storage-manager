@@ -2,12 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
 var asyncGenerator = function () {
   function AwaitValue(value) {
     this.value = value;
@@ -187,9 +181,12 @@ function put(key, data) {
         } else {
             if (namespace !== null) {
                 checkNamespaceType(namespace);
-                localStorage.setItem(namespace, JSON.stringify(_extends({}, fetch(namespace), defineProperty({}, key, data))));
+
+                var result = _extends({}, fetch(namespace), defineProperty({}, key, data));
+
+                return localStorage.setItem(namespace, JSON.stringify(result));
             } else {
-                localStorage.setItem(key, JSON.stringify(data));
+                return localStorage.setItem(key, JSON.stringify(data));
             }
         }
     } else {
@@ -206,18 +203,21 @@ function fetch(key) {
     var namespace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
     if (isLocalStorageAvailable() === true) {
+        var getIt = function getIt(key) {
+            return localStorage.getItem(key);
+        };
         if (namespace !== null) {
             checkNamespaceType(namespace);
-            if (localStorage.getItem(namespace[key]) === undefined) {
-                return undefined;
+            if (getIt(namespace)[key] === null) {
+                return null;
             } else {
-                return JSON.parse(localStorage.getItem(namespace))[key];
+                return JSON.parse(getIt(namespace))[key];
             }
         } else {
-            if (localStorage.getItem(key) === undefined) {
-                return undefined;
+            if (!JSON.parse(getIt(key))) {
+                return null;
             } else {
-                return JSON.parse(localStorage.getItem(key));
+                return JSON.parse(getIt(key));
             }
         }
     } else {
@@ -234,21 +234,7 @@ function remove(key) {
 
     if (isLocalStorageAvailable() === true) {
         if (namespace !== null) {
-            var _ret = function () {
-                var localStorageData = fetch(namespace);
-                return {
-                    v: localStorage.setItem(namespace, Object.keys(localStorageData).reduce(function (acc, curr) {
-                        console.log(curr);
-                        if (curr !== key) {
-                            return _extends({}, acc, {
-                                curr: localStorageData[curr]
-                            });
-                        }
-                    }), {})
-                };
-            }();
-
-            if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+            return localStorage.setItem(namespace, JSON.stringify(_extends({}, fetch(namespace), defineProperty({}, key, undefined))));
         } else {
             return localStorage.removeItem(key);
         }
