@@ -129,6 +129,10 @@ run `npm test`
 
 ## Changelog
 
+### 2.1.5
+
+- fix: stop accessing the key on namespace null check
+
 ### 2.1.4
 
 - refactor: safely access the keys to stop throwing when keys are missing

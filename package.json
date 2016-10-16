@@ -1,6 +1,6 @@
 {
   "name": "@lukeboyle/local-storage-manager",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "A module to easily manage data in local storage.",
   "main": "index.js",
   "main:jsnext": "src/index.js",
