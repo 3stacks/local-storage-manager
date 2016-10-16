@@ -59,7 +59,7 @@ export function fetch(key, namespace = null) {
 		const getIt = key => localStorage.getItem(key);
         if (namespace !== null) {
             checkNamespaceType(namespace);
-            if (getIt(namespace)[key] === null) {
+            if (getIt(namespace) === null) {
                 return null;
             } else {
                 return JSON.parse(getIt(namespace))[key];
