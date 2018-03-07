@@ -22,27 +22,23 @@ function checkNamespaceType(namespaceInput) {
 }
 
 /**
- * @param {String} key - the local storage key
- * @param {String || Number || Array || Object} data - the data to enter into the key
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
+ * @param {string | Array} path - the local storage key
+ * @param {*} data - the data to enter into the key
  */
-export function put(key, data, namespace = null) {
+export function put(path, data) {
     if (isLocalStorageAvailable() === true) {
-        if(key === undefined || data === undefined) {
+        if(path === undefined || data === undefined) {
             throw new Error(undefinedError)
         } else {
-            if (namespace !== null) {
-                checkNamespaceType(namespace);
+			const pathArray = typeof path === 'string' ? path.split('/') : path;
 
-				const result = {
-					...fetch(namespace),
-					[key]: data
-				};
+			return pathArray.reduce((acc, curr) => {
+				if (acc !== null) {
+					return acc[curr];
+				}
 
-                return localStorage.setItem(namespace, JSON.stringify(result));
-            } else {
-                return localStorage.setItem(key, JSON.stringify(data));
-            }
+				return localStorage.setItem(curr, data);
+			}, null);
         }
     } else {
         throw new Error(localStorageError)
@@ -50,27 +46,27 @@ export function put(key, data, namespace = null) {
 }
 
 /**
- * @param {String} key - fetches all data in the key and de-stringifies it
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
+ * @param {string | Array<string>} path - fetches all data in the key and de-stringifies it
+ * @param {*} [defaultValue] - Optional parameter to add a namespace to scope your data to
  * @returns {Object}
  */
-export function fetch(key, namespace = null) {
+export function fetch(path, defaultValue = null) {
     if (isLocalStorageAvailable() === true) {
-		const getIt = key => localStorage.getItem(key);
-        if (namespace !== null) {
-            checkNamespaceType(namespace);
-            if (getIt(namespace) === null) {
-                return null;
-            } else {
-                return JSON.parse(getIt(namespace))[key];
-            }
-        } else {
-            if (getIt(key) === null) {
-                return null;
-            } else {
-                return JSON.parse(getIt(key));
-            }
-        }
+    	const pathArray = typeof path === 'string' ? path.split('/') : path;
+
+		return pathArray.reduce((acc, curr, index) => {
+			if (index === pathArray.length - 1) {
+				return acc;
+			}
+
+			const storageItem = JSON.parse(localStorage.getItem(curr));
+
+			if (storageItem === null) {
+				return defaultValue;
+			}
+
+			return storageItem;
+		}, defaultValue);
     } else {
         throw new Error(localStorageError)
     }
