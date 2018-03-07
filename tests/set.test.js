@@ -27,7 +27,7 @@ describe('Set function', () => {
 
     describe('Correct usage', () => {
 
-        it('setting non-namespaced', () => {
+        it('setting a no-path string', () => {
 
             set('key', 'value');
 
@@ -37,15 +37,34 @@ describe('Set function', () => {
 
         });
 
-        it('setting namespaced', () => {
-			set('jewKey', 'jewValue', 'sampleNamespace');
-            set('newKey', 'newValue', 'sampleNamespace');
+        it.only('setting a path string', () => {
+            set('some/key', 'newValue');
+
+            console.log(localStorage.getItem('some'));
 
             expect(
-            	get('newKey', 'sampleNamespace')
+            	get('some/key')
             ).toEqual('newValue')
 
         });
+
+		it('setting a path array', () => {
+			set(['new', 'key'], 'newValue');
+
+			expect(
+				get(['new', 'key'])
+			).toEqual('newValue')
+
+		});
+
+		it('setting a path array with one item', () => {
+			set(['key'], 'newValue');
+
+			expect(
+				get(['key'])
+			).toEqual('newValue')
+
+		});
 
     });
 

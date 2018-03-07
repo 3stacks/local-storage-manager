@@ -27,7 +27,7 @@ describe('Get function', () => {
 
     describe('Correct usage', () => {
 
-        it('getting non-namespaced', () => {
+        it('should return a set value with a no-path string', () => {
             set('key', 'value');
 
             expect(
@@ -36,14 +36,23 @@ describe('Get function', () => {
 
         });
 
-        it('getting namespaced', () => {
-            set('newKey', 'newValue', 'namespace');
+		it('should return a set value with a path string', () => {
+			set('key/thing', 'value');
 
-            expect(
-                get('newKey', 'namespace')
-            ).toEqual('newValue')
+			expect(
+				get('key/thing')
+			).toEqual('value');
 
-        });
+		});
+
+		it('should return a set value with a path array', () => {
+			set('key/thing', 'value');
+
+			expect(
+				get(['key', 'thing'])
+			).toEqual('value');
+
+		});
 
     });
 
@@ -53,14 +62,6 @@ describe('Get function', () => {
 
 			expect(
 				get('key')
-			).toBe(null)
-
-		});
-
-		it('should return null on namespaced', () => {
-
-			expect(
-				get('key', 'sampleNamespace')
 			).toBe(null)
 
 		});

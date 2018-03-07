@@ -1,3 +1,4 @@
+import safeGet from 'lodash/safeGet';
 // http://stackoverflow.com/questions/16427636/check-if-localstorage-is-available
 
 function isLocalStorageAvailable(){
@@ -32,12 +33,21 @@ export function put(path, data) {
         } else {
 			const pathArray = typeof path === 'string' ? path.split('/') : path;
 
-			return pathArray.reduce((acc, curr) => {
+			if (pathArray.length === 1) {
+				return localStorage.setItem(pathArray[0], JSON.stringify(data));
+			}
+
+			return pathArray.reduce((acc, curr, index) => {
+				if (index === pathArray.length - 1) {
+					return localStorage.setItem(curr, JSON.stringify(data));
+				}
+
 				if (acc !== null) {
 					return acc[curr];
 				}
 
-				return localStorage.setItem(curr, data);
+				// For the first iteration, get the root key with all data
+				return fetch(curr);
 			}, null);
         }
     } else {
@@ -53,20 +63,13 @@ export function put(path, data) {
 export function fetch(path, defaultValue = null) {
     if (isLocalStorageAvailable() === true) {
     	const pathArray = typeof path === 'string' ? path.split('/') : path;
+		const storageItem = JSON.parse(localStorage.getItem(pathArray[0]));
 
-		return pathArray.reduce((acc, curr, index) => {
-			if (index === pathArray.length - 1) {
-				return acc;
-			}
-
-			const storageItem = JSON.parse(localStorage.getItem(curr));
-
-			if (storageItem === null) {
-				return defaultValue;
-			}
-
+		if (pathArray.length === 1) {
 			return storageItem;
-		}, defaultValue);
+		}
+
+		return safeGet(storageItem, pathArray.slice(1))
     } else {
         throw new Error(localStorageError)
     }
@@ -125,6 +128,7 @@ export function transformFromStorage(string, find, replace) {
 }
 
 /**
+ * @deprecated
  * @param {Object} defaultValues - Pass in an object with your application's local storage keys + their default value
  * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
  */
@@ -134,7 +138,7 @@ export function setIfEmpty(defaultValues, namespace) {
         if (fetch(key) === undefined) {
             put(key, currentValue, namespace)
         }
-    })
+    });
 }
 
 export { put as set };
