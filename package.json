@@ -6,7 +6,7 @@
   "main:jsnext": "src/index.js",
   "scripts": {
     "test": "karma start karma.config.js",
-  	"prepublish": "npm start",
+    "prepublish": "npm start",
     "start": "rollup --config rollup.config.js"
   },
   "repository": {
@@ -21,7 +21,9 @@
   ],
   "author": "Luke Boyle",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.9.0",
@@ -40,19 +42,11 @@
     "expect": "^1.20.2",
     "istanbul": "^0.4.5",
     "istanbul-coveralls": "^1.0.3",
-    "karma": "^1.2.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-coverage": "^1.1.1",
-    "karma-coveralls": "^1.1.2",
-    "karma-mocha": "^1.1.1",
-    "karma-mocha-reporter": "^2.1.0",
-    "karma-webpack": "^1.8.0",
     "mocha": "^3.0.2",
     "rollup": "^0.26.1",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-commonjs": "^2.2.1",
     "rollup-plugin-node-resolve": "^1.7.0",
-    "rollup-plugin-npm": "^1.4.0",
-    "webpack": "^2.1.0-beta.20"
+    "rollup-plugin-npm": "^1.4.0"
   }
 }
