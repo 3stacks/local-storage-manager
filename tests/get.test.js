@@ -69,6 +69,22 @@ describe('Get function', () => {
 
 		});
 
+		it('should return default value when provided', () => {
+
+			expect(
+				getItem('asdf', ['array'])
+			).toEqual(['array']);
+
+			expect(
+				getItem('asdf/sdfagd', ['array'])
+			).toEqual(['array']);
+
+			expect(
+				getItem(['asdfg', 'dfagd'], ['array'])
+			).toEqual(['array']);
+
+		});
+
 	});
 
 });
