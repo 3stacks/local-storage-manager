@@ -64,6 +64,7 @@ removeItem(['other', 'path']);
 
 - path - `string | Array<string>` e.g. `'noPath'`, `'short/path'`, `['array', 'path']` 
 *(array and slash separated paths can not be combined)*
+- defaultValue - `any` - If key doesn't exist in Storage, this will be returned instead
 
 ### removeItem
 
