@@ -58,10 +58,10 @@ export function getItem(path, defaultValue = null) {
 		const storageItem = JSON.parse(localStorage.getItem(pathArray[0]));
 
 		if (pathArray.length === 1) {
-			return storageItem;
+			return storageItem || defaultValue;
 		}
 
-		return safeGet(storageItem, pathArray.slice(1), null)
+		return safeGet(storageItem, pathArray.slice(1), defaultValue)
     } else {
         throw new Error(localStorageError)
     }
