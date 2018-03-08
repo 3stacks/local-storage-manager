@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { set, get } from '../src/index';
+import { setItem, getItem } from '../src/index';
 
 describe('Get function', () => {
 	afterEach(() => {
@@ -11,7 +11,7 @@ describe('Get function', () => {
         it('should be available', () => {
 
             expect(
-                get
+                getItem
             ).toExist();
 
         });
@@ -19,7 +19,7 @@ describe('Get function', () => {
         it('should be a function', () => {
 
             expect(
-                get
+                getItem
             ).toBeA(
                 Function
             )
@@ -30,29 +30,29 @@ describe('Get function', () => {
 
     describe('Correct usage', () => {
 
-        it('should return a set value with a no-path string', () => {
-            set('someKey', 'value');
+        it('should return a setItem value with a no-path string', () => {
+            setItem('someKey', 'value');
 
             expect(
-                get('someKey')
+                getItem('someKey')
             ).toEqual('value');
 
         });
 
-		it('should return a set value with a path string', () => {
-			set('someKey/thing', 'value');
+		it('should return a setItem value with a path string', () => {
+			setItem('someKey/thing', 'value');
 
 			expect(
-				get('someKey/thing')
+				getItem('someKey/thing')
 			).toEqual('value');
 
 		});
 
-		it('should return a set value with a path array', () => {
-			set('someKey/thing', 'value');
+		it('should return a setItem value with a path array', () => {
+			setItem('someKey/thing', 'value');
 
 			expect(
-				get(['someKey', 'thing'])
+				getItem(['someKey', 'thing'])
 			).toEqual('value');
 
 		});
@@ -64,7 +64,7 @@ describe('Get function', () => {
 		it('should return null', () => {
 
 			expect(
-				get('asdf')
+				getItem('asdf')
 			).toBe(null)
 
 		});

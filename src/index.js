@@ -25,7 +25,7 @@ function getPathArrayFromPath(path) {
  * @param {string | Array} path - the local storage key
  * @param {*} data - the data to enter into the key
 */
-export function put(path, data) {
+export function setItem(path, data) {
     if (isLocalStorageAvailable() === true) {
         if(path === undefined || data === undefined) {
             throw new Error(undefinedError)
@@ -36,7 +36,7 @@ export function put(path, data) {
 				return localStorage.setItem(pathArray[0], JSON.stringify(data));
 			}
 
-			const rootData = fetch(pathArray[0]) || {};
+			const rootData = getItem(pathArray[0]) || {};
 
 			safeSet(rootData, pathArray, data);
 
@@ -52,7 +52,7 @@ export function put(path, data) {
  * @param {*} [defaultValue] - Optional parameter to add a namespace to scope your data to
  * @returns {Object}
  */
-export function fetch(path, defaultValue = null) {
+export function getItem(path, defaultValue = null) {
     if (isLocalStorageAvailable() === true) {
 		const pathArray = getPathArrayFromPath(path);
 		const storageItem = JSON.parse(localStorage.getItem(pathArray[0]));
@@ -81,9 +81,9 @@ export function remove(path) {
 		return localStorage.removeItem(path);
 	}
 
-	const rootData = fetch(path);
+	const rootData = getItem(path);
 
-	put(pathArray[0], Object.entries(rootData).reduce((acc, [key, value], index) => {
+	setItem(pathArray[0], Object.entries(rootData).reduce((acc, [key, value], index) => {
 		if (index === pathArray.length) {
 			return acc;
 		}

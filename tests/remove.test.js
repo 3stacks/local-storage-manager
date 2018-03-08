@@ -1,9 +1,8 @@
 import expect from 'expect';
-import { get, set, remove } from '../src/index';
+import { getItem, setItem, remove } from '../src/index';
 
 describe('Remove function', () => {
 	afterEach(() => {
-		console.log('cleared');
 		localStorage.clear();
 	});
 
@@ -36,63 +35,63 @@ describe('Remove function', () => {
 		});
 
         it('removing non-path string', () => {
-            set('sampleKey', 'value');
+            setItem('sampleKey', 'value');
 
 			expect(
-				get('sampleKey')
+				getItem('sampleKey')
 			).toBe('value');
 
 			remove('sampleKey');
 
             expect(
-			    get('sampleKey')
+			    getItem('sampleKey')
 			).toBe(null);
 
         });
 
 		it('removing path string', () => {
-			set('some/key', 'value');
+			setItem('some/key', 'value');
 
 			expect(
-				get('some/key')
+				getItem('some/key')
 			).toBe('value');
 
-			console.log(get('some/key'));
+			console.log(getItem('some/key'));
 
 			remove('some/key');
 
 			expect(
-				get('some/key')
+				getItem('some/key')
 			).toBe(null);
 
 		});
 
 		it('removing non-path array', () => {
-			set(['sampleKey'], 'value');
+			setItem(['sampleKey'], 'value');
 
 			expect(
-				get(['sampleKey'])
+				getItem(['sampleKey'])
 			).toBe('value');
 
 			remove(['sampleKey']);
 
 			expect(
-				get(['sampleKey'])
+				getItem(['sampleKey'])
 			).toBe(null);
 
 		});
 
 		it('removing path array', () => {
-			set(['some', 'key'], 'value');
+			setItem(['some', 'key'], 'value');
 
 			expect(
-				get(['some', 'key'])
+				getItem(['some', 'key'])
 			).toBe('value');
 
 			remove(['some', 'key']);
 
 			expect(
-				get(['some', 'key'])
+				getItem(['some', 'key'])
 			).toBe(null);
 
 		});

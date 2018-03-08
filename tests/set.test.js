@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { get, set } from '../src/index';
+import { getItem, setItem } from '../src/index';
 
 describe('Set function', () => {
 
@@ -8,7 +8,7 @@ describe('Set function', () => {
         it('should be available', () => {
 
             expect(
-                set
+                setItem
             ).toExist();
 
         });
@@ -16,7 +16,7 @@ describe('Set function', () => {
         it('should be a function', () => {
 
             expect(
-                set
+                setItem
             ).toBeA(
                 Function
             )
@@ -30,39 +30,39 @@ describe('Set function', () => {
 			localStorage.clear();
 		});
 
-        it('setting a no-path string', () => {
+        it('putting a no-path string', () => {
 
-			set('someKey', 'value');
+			setItem('someKey', 'value');
 
             expect(
-            	get('someKey')
+            	getItem('someKey')
             ).toEqual('value');
 
         });
 
-        it('setting a path string', () => {
-            set('some/key', 'newValue');
+        it('putting a path string', () => {
+            setItem('some/key', 'newValue');
 
             expect(
-            	get('some/key')
+            	getItem('some/key')
             ).toEqual('newValue')
 
         });
 
-		it('setting a path array', () => {
-			set(['new', 'key'], 'newValue');
+		it('putting a path array', () => {
+			setItem(['new', 'key'], 'newValue');
 
 			expect(
-				get(['new', 'key'])
+				getItem(['new', 'key'])
 			).toEqual('newValue')
 
 		});
 
-		it('setting a path array with one item', () => {
-			set(['someKey'], 'newValue');
+		it('putting a path array with one item', () => {
+			setItem(['someKey'], 'newValue');
 
 			expect(
-				get(['someKey'])
+				getItem(['someKey'])
 			).toEqual('newValue')
 
 		});
