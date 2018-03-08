@@ -26,21 +26,22 @@ describe('Set function', () => {
     });
 
     describe('Correct usage', () => {
+		afterEach(() => {
+			localStorage.clear();
+		});
 
         it('setting a no-path string', () => {
 
-            set('key', 'value');
+			set('someKey', 'value');
 
             expect(
-            	get('key')
+            	get('someKey')
             ).toEqual('value');
 
         });
 
-        it.only('setting a path string', () => {
+        it('setting a path string', () => {
             set('some/key', 'newValue');
-
-            console.log(localStorage.getItem('some'));
 
             expect(
             	get('some/key')
@@ -58,10 +59,10 @@ describe('Set function', () => {
 		});
 
 		it('setting a path array with one item', () => {
-			set(['key'], 'newValue');
+			set(['someKey'], 'newValue');
 
 			expect(
-				get(['key'])
+				get(['someKey'])
 			).toEqual('newValue')
 
 		});
