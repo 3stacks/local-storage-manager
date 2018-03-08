@@ -1,0 +1,33 @@
+{
+	"presets": [
+		[
+			"env",
+			{
+				"modules": false,
+				"targets": {
+					"browsers": ["last 2 versions", "IE 11"]
+				}
+			}
+		]
+	],
+	"plugins": [
+		"transform-object-rest-spread"
+	],
+	"env": {
+		"test": {
+			"presets": [
+				[
+					"env",
+					{
+						"targets": {
+							"node": "6.10"
+						}
+					}
+				]
+			],
+			"plugins": [
+				"transform-object-rest-spread"
+			]
+		}
+	}
+}
