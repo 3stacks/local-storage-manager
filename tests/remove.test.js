@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { getItem, setItem, remove } from '../src/index';
+import { getItem, setItem, removeItem } from '../src/index';
 
 describe('Remove function', () => {
 	afterEach(() => {
@@ -11,7 +11,7 @@ describe('Remove function', () => {
         it('should be available', () => {
 
             expect(
-                remove
+                removeItem
             ).toExist();
 
         });
@@ -19,7 +19,7 @@ describe('Remove function', () => {
         it('should be a function', () => {
 
             expect(
-                remove
+                removeItem
             ).toBeA(
                 Function
             )
@@ -41,7 +41,7 @@ describe('Remove function', () => {
 				getItem('sampleKey')
 			).toBe('value');
 
-			remove('sampleKey');
+			removeItem('sampleKey');
 
             expect(
 			    getItem('sampleKey')
@@ -58,7 +58,7 @@ describe('Remove function', () => {
 
 			console.log(getItem('some/key'));
 
-			remove('some/key');
+			removeItem('some/key');
 
 			expect(
 				getItem('some/key')
@@ -73,7 +73,7 @@ describe('Remove function', () => {
 				getItem(['sampleKey'])
 			).toBe('value');
 
-			remove(['sampleKey']);
+			removeItem(['sampleKey']);
 
 			expect(
 				getItem(['sampleKey'])
@@ -88,7 +88,7 @@ describe('Remove function', () => {
 				getItem(['some', 'key'])
 			).toBe('value');
 
-			remove(['some', 'key']);
+			removeItem(['some', 'key']);
 
 			expect(
 				getItem(['some', 'key'])
