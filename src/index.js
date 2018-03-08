@@ -70,7 +70,7 @@ export function getItem(path, defaultValue = null) {
 /**
  * @param {string | Array} path - the key to remove and delete all data in
  */
-export function remove(path) {
+export function removeItem(path) {
 	if (!isLocalStorageAvailable()) {
 		throw new Error(localStorageError)
 	}
