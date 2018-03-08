@@ -2,298 +2,115 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var asyncGenerator = function () {
-  function AwaitValue(value) {
-    this.value = value;
-  }
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-  function AsyncGenerator(gen) {
-    var front, back;
+var safeGet = _interopDefault(require('lodash/get'));
+var safeSet = _interopDefault(require('lodash/set'));
 
-    function send(key, arg) {
-      return new Promise(function (resolve, reject) {
-        var request = {
-          key: key,
-          arg: arg,
-          resolve: resolve,
-          reject: reject,
-          next: null
-        };
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-        if (back) {
-          back = back.next = request;
-        } else {
-          front = back = request;
-          resume(key, arg);
-        }
-      });
-    }
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-    function resume(key, arg) {
-      try {
-        var result = gen[key](arg);
-        var value = result.value;
-
-        if (value instanceof AwaitValue) {
-          Promise.resolve(value.value).then(function (arg) {
-            resume("next", arg);
-          }, function (arg) {
-            resume("throw", arg);
-          });
-        } else {
-          settle(result.done ? "return" : "normal", result.value);
-        }
-      } catch (err) {
-        settle("throw", err);
-      }
-    }
-
-    function settle(type, value) {
-      switch (type) {
-        case "return":
-          front.resolve({
-            value: value,
-            done: true
-          });
-          break;
-
-        case "throw":
-          front.reject(value);
-          break;
-
-        default:
-          front.resolve({
-            value: value,
-            done: false
-          });
-          break;
-      }
-
-      front = front.next;
-
-      if (front) {
-        resume(front.key, front.arg);
-      } else {
-        back = null;
-      }
-    }
-
-    this._invoke = send;
-
-    if (typeof gen.return !== "function") {
-      this.return = undefined;
-    }
-  }
-
-  if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-      return this;
-    };
-  }
-
-  AsyncGenerator.prototype.next = function (arg) {
-    return this._invoke("next", arg);
-  };
-
-  AsyncGenerator.prototype.throw = function (arg) {
-    return this._invoke("throw", arg);
-  };
-
-  AsyncGenerator.prototype.return = function (arg) {
-    return this._invoke("return", arg);
-  };
-
-  return {
-    wrap: function (fn) {
-      return function () {
-        return new AsyncGenerator(fn.apply(this, arguments));
-      };
-    },
-    await: function (value) {
-      return new AwaitValue(value);
-    }
-  };
-}();
-
-var defineProperty = function (obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-};
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // http://stackoverflow.com/questions/16427636/check-if-localstorage-is-available
 
 function isLocalStorageAvailable() {
-    var test = 'test';
-    try {
-        localStorage.setItem(test, test);
-        localStorage.removeItem(test);
-        return true;
-    } catch (e) {
-        return false;
-    }
+	var test = 'test';
+
+	try {
+		localStorage.setItem(test, test);
+		localStorage.removeItem(test);
+		return true;
+	} catch (e) {
+		return false;
+	}
 }
 
 var localStorageError = 'Warning, local storage is not available in your current environment. This module does not work without local storage available';
 var undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
-var namespaceTypeError = new TypeError('argument `namespace` was expecting a string');
 
-function checkNamespaceType(namespaceInput) {
-    if (typeof namespaceInput !== 'string') {
-        throw namespaceTypeError;
-    }
+function getPathArrayFromPath(path) {
+	return typeof path === 'string' ? path.split('/') : path;
 }
 
 /**
- * @param {String} key - the local storage key
- * @param {String || Number || Array || Object} data - the data to enter into the key
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
- */
-function put(key, data) {
-    var namespace = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+ * @param {string | Array} path - the local storage key
+ * @param {*} data - the data to enter into the key
+*/
+function setItem(path, data) {
+	if (isLocalStorageAvailable() === true) {
+		if (path === undefined || data === undefined) {
+			throw new Error(undefinedError);
+		} else {
+			var pathArray = getPathArrayFromPath(path);
 
-    if (isLocalStorageAvailable() === true) {
-        if (key === undefined || data === undefined) {
-            throw new Error(undefinedError);
-        } else {
-            if (namespace !== null) {
-                checkNamespaceType(namespace);
+			if (pathArray.length === 1) {
+				return localStorage.setItem(pathArray[0], JSON.stringify(data));
+			}
 
-                var result = _extends({}, fetch(namespace), defineProperty({}, key, data));
+			var rootData = getItem(pathArray[0]) || {};
 
-                return localStorage.setItem(namespace, JSON.stringify(result));
-            } else {
-                return localStorage.setItem(key, JSON.stringify(data));
-            }
-        }
-    } else {
-        throw new Error(localStorageError);
-    }
+			safeSet(rootData, pathArray, data);
+
+			localStorage.setItem(pathArray[0], JSON.stringify(rootData[pathArray[0]]));
+		}
+	} else {
+		throw new Error(localStorageError);
+	}
 }
 
 /**
- * @param {String} key - fetches all data in the key and de-stringifies it
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
+ * @param {string | Array<string>} path - fetches all data in the key and de-stringifies it
+ * @param {*} [defaultValue] - Optional parameter to add a namespace to scope your data to
  * @returns {Object}
  */
-function fetch(key) {
-    var namespace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+function getItem(path) {
+	var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-    if (isLocalStorageAvailable() === true) {
-        var getIt = function getIt(key) {
-            return localStorage.getItem(key);
-        };
-        if (namespace !== null) {
-            checkNamespaceType(namespace);
-            if (getIt(namespace) === null) {
-                return null;
-            } else {
-                return JSON.parse(getIt(namespace))[key];
-            }
-        } else {
-            if (getIt(key) === null) {
-                return null;
-            } else {
-                return JSON.parse(getIt(key));
-            }
-        }
-    } else {
-        throw new Error(localStorageError);
-    }
+	if (isLocalStorageAvailable() === true) {
+		var pathArray = getPathArrayFromPath(path);
+		var storageItem = JSON.parse(localStorage.getItem(pathArray[0]));
+
+		if (pathArray.length === 1) {
+			return storageItem || defaultValue;
+		}
+
+		return safeGet(storageItem, pathArray.slice(1), defaultValue);
+	} else {
+		throw new Error(localStorageError);
+	}
 }
 
 /**
- * @param {String} key - the key to remove and delete all data in
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
+ * @param {string | Array} path - the key to remove and delete all data in
  */
-function remove(key) {
-    var namespace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+function removeItem(path) {
+	if (!isLocalStorageAvailable()) {
+		throw new Error(localStorageError);
+	}
 
-    if (isLocalStorageAvailable() === true) {
-        if (namespace !== null) {
-            return localStorage.setItem(namespace, JSON.stringify(_extends({}, fetch(namespace), defineProperty({}, key, null))));
-        } else {
-            return localStorage.removeItem(key);
-        }
-    } else {
-        throw new Error(localStorageError);
-    }
+	var pathArray = getPathArrayFromPath(path);
+
+	if (pathArray.length === 1) {
+		return localStorage.removeItem(path);
+	}
+
+	var rootData = getItem(path);
+
+	setItem(pathArray[0], Object.entries(rootData).reduce(function (acc, _ref, index) {
+		var _ref2 = _slicedToArray(_ref, 2),
+		    key = _ref2[0],
+		    value = _ref2[1];
+
+		if (index === pathArray.length) {
+			return acc;
+		}
+
+		return _extends({}, acc, _defineProperty({}, key, value));
+	}, rootData));
 }
 
-/**
- *
- * @param {String} str - The string to process
- * @param {String} find - The characters to find
- * @param {String} replace - The characters to replace the found characters with
- * @returns {string|XML|void}
- */
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
-
-/**
- *
- * @param {String} string - The string to process
- * @param {String} find - The characters to find
- * @param {String} replace - The characters to replace the found characters with
- * @returns {string|XML|void}
- */
-function transformToStorage(string, find, replace) {
-    return replaceAll(string, find, replace);
-}
-
-/**
- *
- * @param {String} string - The string to process
- * @param {String} find - The characters to find
- * @param {String} replace - The characters to replace the found characters with
- * @returns {*} - Does the opposite of {@link transformToStorage}
- */
-function transformFromStorage(string, find, replace) {
-    return replaceAll(string, find, replace);
-}
-
-/**
- * @param {Object} defaultValues - Pass in an object with your application's local storage keys + their default value
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
- */
-function setIfEmpty(defaultValues, namespace) {
-    Object.keys(defaultValues).forEach(function (key) {
-        var currentValue = defaultValues[key];
-        if (fetch(key) === undefined) {
-            put(key, currentValue, namespace);
-        }
-    });
-}
-
-exports.put = put;
-exports.fetch = fetch;
-exports.remove = remove;
-exports.transformToStorage = transformToStorage;
-exports.transformFromStorage = transformFromStorage;
-exports.setIfEmpty = setIfEmpty;
-exports.set = put;
-exports.get = fetch;
+exports.setItem = setItem;
+exports.getItem = getItem;
+exports.removeItem = removeItem;
