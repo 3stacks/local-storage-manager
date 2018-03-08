@@ -1,4 +1,5 @@
-import safeGet from 'lodash/safeGet';
+import safeGet from 'lodash/get';
+import safeSet from 'lodash/set';
 // http://stackoverflow.com/questions/16427636/check-if-localstorage-is-available
 
 function isLocalStorageAvailable(){
@@ -25,7 +26,7 @@ function checkNamespaceType(namespaceInput) {
 /**
  * @param {string | Array} path - the local storage key
  * @param {*} data - the data to enter into the key
- */
+*/
 export function put(path, data) {
     if (isLocalStorageAvailable() === true) {
         if(path === undefined || data === undefined) {
@@ -37,18 +38,11 @@ export function put(path, data) {
 				return localStorage.setItem(pathArray[0], JSON.stringify(data));
 			}
 
-			return pathArray.reduce((acc, curr, index) => {
-				if (index === pathArray.length - 1) {
-					return localStorage.setItem(curr, JSON.stringify(data));
-				}
+			const rootData = fetch(pathArray[0]) || {};
 
-				if (acc !== null) {
-					return acc[curr];
-				}
+			safeSet(rootData, pathArray, data);
 
-				// For the first iteration, get the root key with all data
-				return fetch(curr);
-			}, null);
+			localStorage.setItem(pathArray[0], JSON.stringify(rootData[pathArray[0]]));
         }
     } else {
         throw new Error(localStorageError)
