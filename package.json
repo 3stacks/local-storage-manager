@@ -6,7 +6,10 @@
 	"main:jsnext": "src/index.js",
 	"scripts": {
 		"test": "NODE_ENV=test mocha ./tests/*.test.js --require babel-register --require mock-local-storage",
-		"start": "rollup --config rollup.config.js"
+		"start": "rollup --config rollup.config.js",
+		"build": "yarn start && yarn test",
+		"prepublishOnly": "yarn run build",
+		"preversion": "yarn run build"
 	},
 	"repository": {
 		"type": "git",
