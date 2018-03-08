@@ -2,6 +2,9 @@ import expect from 'expect';
 import { set, get } from '../src/index';
 
 describe('Get function', () => {
+	afterEach(() => {
+		localStorage.clear();
+	});
 
     describe('The basics', () => {
 
@@ -28,28 +31,28 @@ describe('Get function', () => {
     describe('Correct usage', () => {
 
         it('should return a set value with a no-path string', () => {
-            set('key', 'value');
+            set('someKey', 'value');
 
             expect(
-                get('key')
+                get('someKey')
             ).toEqual('value');
 
         });
 
 		it('should return a set value with a path string', () => {
-			set('key/thing', 'value');
+			set('someKey/thing', 'value');
 
 			expect(
-				get('key/thing')
+				get('someKey/thing')
 			).toEqual('value');
 
 		});
 
 		it('should return a set value with a path array', () => {
-			set('key/thing', 'value');
+			set('someKey/thing', 'value');
 
 			expect(
-				get(['key', 'thing'])
+				get(['someKey', 'thing'])
 			).toEqual('value');
 
 		});
@@ -61,7 +64,7 @@ describe('Get function', () => {
 		it('should return null', () => {
 
 			expect(
-				get('key')
+				get('asdf')
 			).toBe(null)
 
 		});

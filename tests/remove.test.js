@@ -2,6 +2,10 @@ import expect from 'expect';
 import { get, set, remove } from '../src/index';
 
 describe('Remove function', () => {
+	afterEach(() => {
+		console.log('cleared');
+		localStorage.clear();
+	});
 
     describe('The basics', () => {
 
@@ -31,7 +35,7 @@ describe('Remove function', () => {
 			localStorage.clear();
 		});
 
-        it('removing non-namespaced', () => {
+        it('removing non-path string', () => {
             set('sampleKey', 'value');
 
 			expect(
@@ -46,23 +50,52 @@ describe('Remove function', () => {
 
         });
 
-        it('removing namespaced', () => {
-            set('newKey', 'newValue', 'sampleNamespace');
-            set('jewKey', 'jewValue', 'sampleNamespace');
+		it('removing path string', () => {
+			set('some/key', 'value');
 
 			expect(
-				get('newKey', 'sampleNamespace')
-			).toBe('newValue');
+				get('some/key')
+			).toBe('value');
 
-			remove('newKey', 'sampleNamespace');
+			console.log(get('some/key'));
 
-			console.log(get('newKey', 'sampleNamespace'));
+			remove('some/key');
 
-            expect(
-            	get('newKey', 'sampleNamespace')
-            ).toBe(null);
+			expect(
+				get('some/key')
+			).toBe(null);
 
-        });
+		});
+
+		it('removing non-path array', () => {
+			set(['sampleKey'], 'value');
+
+			expect(
+				get(['sampleKey'])
+			).toBe('value');
+
+			remove(['sampleKey']);
+
+			expect(
+				get(['sampleKey'])
+			).toBe(null);
+
+		});
+
+		it('removing path array', () => {
+			set(['some', 'key'], 'value');
+
+			expect(
+				get(['some', 'key'])
+			).toBe('value');
+
+			remove(['some', 'key']);
+
+			expect(
+				get(['some', 'key'])
+			).toBe(null);
+
+		});
 
     });
 
