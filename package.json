@@ -3,7 +3,7 @@
 	"version": "2.1.6",
 	"description": "A module to easily manage data in local storage.",
 	"main": "index.js",
-	"main:jsnext": "src/index.js",
+	"module": "src/index.js",
 	"scripts": {
 		"test": "NODE_ENV=test mocha ./tests/*.test.js --require babel-register --require mock-local-storage",
 		"start": "rollup --config rollup.config.js",
