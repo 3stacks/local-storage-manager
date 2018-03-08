@@ -1,6 +1,6 @@
 {
 	"name": "@lukeboyle/local-storage-manager",
-	"version": "2.1.6",
+	"version": "3.0.0",
 	"description": "A module to easily manage data in local storage.",
 	"main": "index.js",
 	"module": "src/index.js",
@@ -22,7 +22,7 @@
 		"localStorage"
 	],
 	"author": "Luke Boyle",
-	"license": "ISC",
+	"license": "MIT",
 	"dependencies": {
 		"lodash": "^4.17.5"
 	},
