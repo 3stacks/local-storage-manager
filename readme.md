@@ -16,118 +16,76 @@ Current features:
 
 ### Usage
 
-The main js file is ES5, and the src/index.js (main:jsnext) is ES2015
-
-### New Features
-
-- Namespacing data
-
 - When setting data, put your namespace as the third argument and all data 
 will be stored under that key
 - You can then get keys from under that namespace, or just get that key 
 and dump all your namespace data
 
 ```javascript
-var localStorageManager = require('@lukeboyle/local-storage-manager') // OR
-import * as localStorageManager from '@lukeboyle/local-storage-manager';
+const localStorageManager = require('@lukeboyle/local-storage-manager'); // OR
+import * as localStorageManager from '@lukeboyle/local-storage-manager'; // OR
+import {getItem, setItem, removeItem} from '@lukeboyle/local-storage-manager';
 
 // Creating a key and entering a string into local storage
 
-localStorageManager.set('string1', 'data');
+setItem('string1', 'data');
+setItem('some/path', 'some string');
+setItem(['other', 'path'], 'some string');
 
-// Creating a key and entering an array into local storage
-
-localStorageManager.set('array1', [ 
-	'one',
-	'two',
-	'three'
-]);
-
-// Namespacing data
-
-localStorageManager.set('namespacedString', 'sampleValue', 'sampleNamespace');
-
-	localStorageManager.get('namespacedString');
-		// undefined
-	
-	localStorageManager.get('namespacedString', 'sampleNamespace')
-		// sampleValue
+// Second argument of setItem is any type that can be JSON.stringified
 
 // Getting data bound to a key
 
-localStorageManager.get('string1');
-
-//	returns: 'data'
+getItem('string1'); // => 'data'
+getItem('some/path'); // => 'some string'
+getItem(['other', 'path']); // => 'some string'
 
 // Removing a key and all data bound to it
 
-localStorageManager.remove('string1');
-
-// Example usage
-
-var data = localStorageManager.get('string1');
-if (data === 'data') {
-	return true;
-}
-```
-
-Using the transform to storage function.
-
-In some cases, strings may not be able to be put into local storage as is. 
-For example, a string such as '23/53453458124234' will return the error
-"Unexpected token /" because this interrupts the stringify function.
-
-To get around this, the transformToStorage function can replace the slash with a
-suitable word or phrase. Likewise, the transformFromStorage function can remove 
-the word we introduced.
-
-```javascript
-
-// Use the localStorageManager.set function as you normally would, but use transform 
-// as the second argument
-
-var keyName = 'stringWithToken';
-var value = '23/53453458124234';
-
-//Arguments: string to search, characters to find in string, characters to replace found string with.
-var transformedValue = transformToStorage(value, '/', 'replaceTheSlash');
-
-localStorageManager.set(keyName, transformedValue);
-
-console.log(localStorageManager.get(keyName);
-	-- '23replaceTheSlash53453458124234'
-
-// To transform it back to normal, do the opposite function
-
-var value2 = localStorageManager.get(keyName);
-var transformedValue2 = transformFromStorage(value2, 'replaceTheSlash', '/');
-
-console.log(transformedValue2)
-	-- '23/53453458124234'
-```
-
-If keys in your local storage are undefined it may result in a crash. The setIfEmpty function eliminates this issue by 
-checking if keys are undefined, and setting a default value if they are. See below for usage.
-
-```javascript
-
-// define your default values in the format of localStorageKeyName: defaultValue
-var defaultValues = {
-	string: '',
-	array: [],
-	object: {}
-};
-
-// pass your object of default values into the function
-localStorageManager.setIfEmpty(defaultValues);
+removeItem('string1');
+removeItem('some/path');
+removeItem(['other', 'path']);
 
 ```
+
+## API
+
+### setItem
+
+#### Arguments
+
+- path - `string | Array<string>` e.g. `'noPath'`, `'short/path'`, `['array', 'path']` 
+*(array and slash separated paths can not be combined)*
+- data - `any` - Any data valid for `JSON.stringify`
+
+### getItem
+
+#### Arguments
+
+- path - `string | Array<string>` e.g. `'noPath'`, `'short/path'`, `['array', 'path']` 
+*(array and slash separated paths can not be combined)*
+
+### removeItem
+
+#### Arguments
+
+- path - `string | Array<string>` e.g. `'noPath'`, `'short/path'`, `['array', 'path']` 
+*(array and slash separated paths can not be combined)*
 
 ### Running the Tests
 
 run `npm test`
 
 ## Changelog
+
+### 3.0.0
+
+- remove `set` function (replaced by `setItem`) 
+- remove `get` function (replaced by `getItem`)
+- add support for Array or slash separated keys in `getItem` or `setItem`
+- remove `transformToStorage`
+- remove `transformFromStorage`
+- remove `setIfEmpty`
 
 ### 2.1.5
 
