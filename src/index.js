@@ -17,6 +17,10 @@ const localStorageError = 'Warning, local storage is not available in your curre
 const undefinedError = 'Warning, the key or data is undefined. LocalStorage variables must not be undefined';
 const namespaceTypeError = new TypeError('argument `namespace` was expecting a string');
 
+function getPathArrayFromPath(path) {
+	return typeof path === 'string' ? path.split('/') : path;
+}
+
 function checkNamespaceType(namespaceInput) {
     if (typeof namespaceInput !== 'string') {
         throw namespaceTypeError;
@@ -32,7 +36,7 @@ export function put(path, data) {
         if(path === undefined || data === undefined) {
             throw new Error(undefinedError)
         } else {
-			const pathArray = typeof path === 'string' ? path.split('/') : path;
+			const pathArray = getPathArrayFromPath(path);
 
 			if (pathArray.length === 1) {
 				return localStorage.setItem(pathArray[0], JSON.stringify(data));
@@ -56,36 +60,45 @@ export function put(path, data) {
  */
 export function fetch(path, defaultValue = null) {
     if (isLocalStorageAvailable() === true) {
-    	const pathArray = typeof path === 'string' ? path.split('/') : path;
+		const pathArray = getPathArrayFromPath(path);
 		const storageItem = JSON.parse(localStorage.getItem(pathArray[0]));
 
 		if (pathArray.length === 1) {
 			return storageItem;
 		}
 
-		return safeGet(storageItem, pathArray.slice(1))
+		return safeGet(storageItem, pathArray.slice(1), null)
     } else {
         throw new Error(localStorageError)
     }
 }
 
 /**
- * @param {String} key - the key to remove and delete all data in
- * @param {String} [namespace] - Optional parameter to add a namespace to scope your data to
+ * @param {string | Array} path - the key to remove and delete all data in
  */
-export function remove(key, namespace = null) {
-    if (isLocalStorageAvailable() === true) {
-        if (namespace !== null) {
-            return localStorage.setItem(namespace, JSON.stringify({
-				...fetch(namespace),
-				[key]: null
-			}));
-        } else {
-            return localStorage.removeItem(key);
-        }
-    } else {
-        throw new Error(localStorageError)
-    }
+export function remove(path) {
+	if (!isLocalStorageAvailable()) {
+		throw new Error(localStorageError)
+	}
+
+	const pathArray = getPathArrayFromPath(path);
+
+	if (pathArray.length === 1) {
+		return localStorage.removeItem(path);
+	}
+
+	const rootData = fetch(path);
+
+	put(pathArray[0], Object.entries(rootData).reduce((acc, [key, value], index) => {
+		if (index === pathArray.length) {
+			return acc;
+		}
+
+		return {
+			...acc,
+			[key]: value
+		};
+	}, rootData));
 }
 
 /**
